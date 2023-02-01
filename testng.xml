@@ -3,7 +3,6 @@
 <suite name="Suite">
   <test thread-count="5" name="Test2">   
     <classes>
-      #sample changes
    
       
   
