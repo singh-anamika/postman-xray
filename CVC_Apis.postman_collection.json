@@ -1,0 +1,3100 @@
+{
+	"info": {
+		"_postman_id": "926bcc97-e8db-4354-ac57-e293cd106587",
+		"name": "CVC_Apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19552243"
+	},
+	"item": [
+		{
+			"name": "STORE",
+			"item": [
+				{
+					"name": "CREATE STORE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = JSON.parse(responseBody)",
+									"// pm.collectionVariables.set('store_slug',jsonData.data.attributes.slug);",
+									"",
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = ",
+									"   {",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"data\": {",
+									"      \"type\": \"object\",",
+									"      \"properties\": {",
+									"        \"type\": {",
+									"          \"type\": \"string\"",
+									"        },",
+									"        \"id\": {",
+									"          \"type\": \"string\"",
+									"        },",
+									"        \"attributes\": {",
+									"          \"type\": \"object\",",
+									"          \"properties\": {",
+									"            \"name\": {",
+									"              \"type\": \"string\"",
+									"            },",
+									"            \"slug\": {",
+									"              \"type\": \"string\"",
+									"            },",
+									"            \"created_at\": {",
+									"              \"type\": \"string\"",
+									"            }",
+									"          },",
+									"          \"required\": [],",
+									"          \"additionalProperties\": false",
+									"        }",
+									"      },",
+									"      \"required\": [],",
+									"      \"additionalProperties\": false",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}        ",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"CStore -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"DATA\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE -----",
+									"pm.test(\"CStore -Verify_response_contains_data_property\", () => {",
+									"  pm.expect(jsonData).to.have.ownProperty(\"data\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_data_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data).not.eql(null);",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_contains_data_property_type\", () => {",
+									"  pm.expect(jsonData.data).to.be.an(\"object\");",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"TYPE\" PROPERTY IS PRESENT & NOT NULL & ITS VALUE ----------",
+									"pm.test(\"CStore -Verify_response_contains_type_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"type\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_type_property_value\", () => {",
+									"  pm.expect(jsonData.data.type).to.eql(\"store\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_type_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.type).not.eql(null);",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ID\" PROPERTY IS PRESENT & NOT NULL ------------------",
+									"pm.test(\"CStore -Verify_response_contains_id_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"id\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_id_property_value\", () => {",
+									"  pm.expect(jsonData.data.id).not.eql(null);",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------VERIFYING \"ATTRIBUTE\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE---------",
+									"pm.test(\"CStore -Verify_response_contains_attributes_property\", () => {",
+									"    pm.expect(jsonData.data).to.haveOwnProperty(\"attributes\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_attributes_property_type\", () => {",
+									"    pm.expect(jsonData.data.attributes).to.be.an(\"object\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_if_attribute_values_are_non_null\", function () {",
+									"  pm.expect(jsonData.data.attributes).not.eql(null);",
+									"  });",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------VERIFYING \"ATTRIBUTE'S\" PROPERTY NAME IS PRESENT & NOT NULL ------",
+									"pm.test(\"CStore -Verify_response_contains_attributes_property_name\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"name\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_attributes_property_name_value\", () => {",
+									"  pm.expect(jsonData.data.attributes.name).not.eql(null);",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------VERIFYING \"ATTRIBUTE'S\" PROPERTY SLUG IS PRESENT & NOT NULL ------",
+									"pm.test(\"CStore -Verify_response_contains_attributes_property_slug\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"slug\");",
+									"  pm.collectionVariables.set('store_slug',jsonData.data.attributes.slug);",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_attributes_property_slug_value\", () => {",
+									"  pm.expect(jsonData.data.attributes.slug).not.eql(null);",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------VERIFYING \"ATTRIBUTE'S\" PROPERTY CREATED_AT IS PRESENT & NOT NULL ------",
+									"pm.test(\"CStore -Verify_response_contains_attributes_property_createdat\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"created_at\");",
+									"});",
+									"",
+									"pm.test(\"CStore -Verify_response_attributes_property_createdat_value\", () => {",
+									"  pm.expect(jsonData.data.attributes.created_at).not.eql(null);",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------VERIFYING SCHEMA/STRUCTURE OF THE RESPONSE RECEIVED --------------------",
+									"pm.test('CStore -Verify_Structure_of_Response_CreateStore', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomnum = Math.random().toString(36)",
+									"let r_storename='store'+randomnum",
+									"pm.collectionVariables.set('store_name',r_storename)",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"name\":\"{{store_name}}\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE STORE WITH BLANK NAME",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = ",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"detail\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": {",
+									"        \"type\": \"object\",",
+									"        \"properties\": {",
+									"          \"loc\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": {",
+									"              \"type\": \"string\"",
+									"            }",
+									"          },",
+									"          \"msg\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"type\": {",
+									"            \"type\": \"string\"",
+									"          }",
+									"        },",
+									"        \"required\": [],",
+									"        \"additionalProperties\": false",
+									"      }",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"CStore-WBN -Verify_store_not_created_withblankname_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"CStore-WBN -Verify_store_not_created_withblankname_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"CStore-WBN -Verify_response_time_tobe_less_than_500ms_for_blankname\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CStore-WBN -Verify_response_returned_is_json_format_for_blankname\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"DETAIL\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE -----",
+									"pm.test(\"CStore-WBN -Verify_response_contains_detail_property\", () => {",
+									"  pm.expect(jsonData).to.have.ownProperty(\"detail\")  ",
+									"});",
+									"",
+									"pm.test(\"CStore-WBN -Verify_response_contains_detail_property_type\", () => {",
+									"  pm.expect(jsonData.detail).to.be.an(\"array\")",
+									"});",
+									"",
+									"pm.test(\"CStore-WBN -Verify_response_contains_detail_property_type\", () => {",
+									"  pm.expect(jsonData.detail).is.not.eql(null)",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									"// --------------------------------------------------------------------------------------------------",
+									"pm.test(\"CStore-WBN -Verify_response_detail_array_contains_loc_property\", () => {",
+									"  pm.expect(jsonData.detail[0]).to.have.property(\"loc\")  ",
+									"});",
+									"",
+									"pm.test(\"CStore-WBN -Verify_response_detail_array_contains_msg_property\", () => {",
+									"  const mgs_present=jsonData.detail.find(msg => msg)",
+									"  pm.expect(mgs_present).exist;",
+									"});",
+									"",
+									"pm.test(\"CStore-WBN -Verify_responsetext_matches_whenStoreCreatedWithBlankName\", () => {",
+									"\tpm.expect(pm.response.text()).to.include(\"Store name must be an alpha numeric string with [-_.]\")",
+									"})",
+									"// --------------------------------------------------------------------------------------------------",
+									"",
+									"",
+									"// --------------------VERIFYING SCHEMA/STRUCTURE OF THE RESPONSE RECEIVED ------------------",
+									"pm.test('CStore-WBN -Verify_Structure_of_Response_CreateStore_with_blankName', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									" // -----------------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"name\": \"\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE STORE WITH EXISTING NAME",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema =",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"detail\": {",
+									"      \"type\": \"string\"",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"CStore-WEXN -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"CStore-WEXN -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"CStore-WEXN -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CStore-WEXN -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE MESSAGE AND RESPONSE SYNTAX-----------------",
+									"pm.test(\"CStore-WEXN -Verify_responsetext_matches_whenStoreCreatedWith_existing_Name\", () => {",
+									"\tpm.expect(pm.response.text()).to.include(\"A store with this name already exists\")",
+									"})",
+									"",
+									"pm.test('CStore-WEXN -Verify_Structure_of_Response_CreateStore_with_existingName', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									" // ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"name\": \"store58\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE STORE WITH WRONG NAME",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = ",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"detail\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": {",
+									"        \"type\": \"object\",",
+									"        \"properties\": {",
+									"          \"loc\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": {",
+									"              \"type\": \"string\"",
+									"            }",
+									"          },",
+									"          \"msg\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"type\": {",
+									"            \"type\": \"string\"",
+									"          }",
+									"        },",
+									"        \"required\": [],",
+									"        \"additionalProperties\": false",
+									"      }",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"CStore-WWN -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"CStore-WWN -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"CStore-WWN -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CStore-WWN -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									"// ------------- VERIFYING THE RESPONSE MESSAGE AND RESPONSE SYNTAX-----------------",
+									"pm.test(\"CStore-WWN -Verify_responsetext_matches_whenStoreCreatedWithWrongName\", () => {",
+									"\tpm.expect(pm.response.text()).to.include(\"Store name must be an alpha numeric string with [-_.]\")",
+									"})",
+									"",
+									"pm.test('CStore-WWN -Verify_Structure_of_Response_CreateStore_with_wrongName', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									" // ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"name\": \"W0r@ng#Sto3e\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET STORE BY SLUG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"GStore -Verify_store_listed_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"GStore -Verify_store_listed_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"// Function to verify the response time should be less than 1000ms",
+									"pm.test(\"GStore -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE MESSAGE AND RESPONSE SYNTAX-----------------",
+									"pm.test(\"GStore -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"data\");",
+									"});",
+									"",
+									"pm.test(\"GStore -Verifying_if_response_contains_property_of_data\", function () {",
+									"    var data = jsonData.data",
+									"    pm.expect(data).to.property(\"type\");",
+									"    pm.expect(data).to.property(\"id\");",
+									"    pm.expect(data).to.property(\"attributes\");   ",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"{{store_slug}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET STORE BY WRONG SLUG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema =",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"detail\": {",
+									"      \"type\": \"string\"",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"GStore-WS -Verify_store_is_notFound_with_wrongSlug_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"GStore-WS -Verify_store_is_notFound_with_wrongSlug_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"GStore-WS -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"GStore-WS -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE MESSAGE AND RESPONSE SYNTAX-----------------",
+									"pm.test(\"GStore-WS -Verify_response_contains_the_message_storenotfound\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The requested Store was not found\");",
+									"});",
+									"",
+									"pm.test(\"GStore-WS -Verify_if_response_contains_attribute_name\", function(){",
+									"  pm.expect(jsonData).to.have.property(\"detail\"); ",
+									"  });",
+									"",
+									"pm.test('GStore-WS -Verify_Structure_of_Response_Get_store_by_wrong_slug', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-9aw0r5dwkx678",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-9aw0r5dwkx678"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST ALL STORES",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = ",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"data\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": {",
+									"        \"type\": \"object\",",
+									"        \"properties\": {",
+									"          \"type\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"id\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"attributes\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"              \"name\": {",
+									"                \"type\": \"string\"",
+									"              },",
+									"              \"slug\": {",
+									"                \"type\": \"string\"",
+									"              },",
+									"              \"created_at\": {",
+									"                \"type\": \"string\"",
+									"              }",
+									"            },",
+									"            \"required\": [],",
+									"            \"additionalProperties\": false",
+									"          }",
+									"        },",
+									"        \"required\": [],",
+									"        \"additionalProperties\": false",
+									"      }",
+									"    },",
+									"    \"meta\": {",
+									"      \"type\": \"object\",",
+									"      \"properties\": {",
+									"        \"size\": {",
+									"          \"type\": \"number\"",
+									"        },",
+									"        \"total\": {",
+									"          \"type\": \"number\"",
+									"        }",
+									"      },",
+									"      \"required\": [],",
+									"      \"additionalProperties\": false",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"LAllStores -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"LAllStores -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"pm.test(\"LAllStores -Verify_response_time_tobe_less_than_4000ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(4000);",
+									"});",
+									"",
+									"pm.test(\"LAllStores -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"LAllStores -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"data\");",
+									"});",
+									"",
+									"pm.test('LAllStores -Verify_Structure_of_Response_ListAllStore', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores?size=-1",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "-1"
+								},
+								{
+									"key": "before",
+									"value": "63cfcfb91d0e3dc5602a842b",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST STORES WITH VALID BEFORE STORE ID AND SIZE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"",
+									"// Globally storing the response data in a variable",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = ",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"data\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": {",
+									"        \"type\": \"object\",",
+									"        \"properties\": {",
+									"          \"type\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"id\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"attributes\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"              \"name\": {",
+									"                \"type\": \"string\"",
+									"              },",
+									"              \"slug\": {",
+									"                \"type\": \"string\"",
+									"              },",
+									"              \"created_at\": {",
+									"                \"type\": \"string\"",
+									"              }",
+									"            },",
+									"            \"required\": [],",
+									"            \"additionalProperties\": false",
+									"          }",
+									"        },",
+									"        \"required\": [],",
+									"        \"additionalProperties\": false",
+									"      }",
+									"    },",
+									"    \"meta\": {",
+									"      \"type\": \"object\",",
+									"      \"properties\": {",
+									"        \"size\": {",
+									"          \"type\": \"number\"",
+									"        },",
+									"        \"total\": {",
+									"          \"type\": \"number\"",
+									"        },",
+									"        \"next\": {",
+									"          \"type\": \"string\"",
+									"        },",
+									"        \"prev\": {",
+									"          \"type\": \"string\"",
+									"        }",
+									"      },",
+									"      \"required\": [],",
+									"      \"additionalProperties\": false",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"LStore-VBSIDAS -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"LStore-VBSIDAS -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"pm.test(\"LStore-VBSIDAS -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"LStore-VBSIDAS -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"LStore-VBSIDAS -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"data\");",
+									"});",
+									"",
+									"pm.test('LStore-VBSIDAS -Verify_Structure_of_Response_ListAllStore_BeforeStoreID', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									" // ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores?before=63da559bc3a9c3d8e25fac8a&size=10",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores"
+							],
+							"query": [
+								{
+									"key": "before",
+									"value": "63da559bc3a9c3d8e25fac8a"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST STORES WITH VALID AFTER STORE ID AND SIZE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = ",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"data\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": {",
+									"        \"type\": \"object\",",
+									"        \"properties\": {",
+									"          \"type\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"id\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"attributes\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"              \"name\": {",
+									"                \"type\": \"string\"",
+									"              },",
+									"              \"slug\": {",
+									"                \"type\": \"string\"",
+									"              },",
+									"              \"created_at\": {",
+									"                \"type\": \"string\"",
+									"              }",
+									"            },",
+									"            \"required\": [],",
+									"            \"additionalProperties\": false",
+									"          }",
+									"        },",
+									"        \"required\": [],",
+									"        \"additionalProperties\": false",
+									"      }",
+									"    },",
+									"    \"meta\": {",
+									"      \"type\": \"object\",",
+									"      \"properties\": {",
+									"        \"size\": {",
+									"          \"type\": \"number\"",
+									"        },",
+									"        \"total\": {",
+									"          \"type\": \"number\"",
+									"        },",
+									"        \"next\": {",
+									"          \"type\": \"string\"",
+									"        },",
+									"        \"prev\": {",
+									"          \"type\": \"string\"",
+									"        }",
+									"      },",
+									"      \"required\": [],",
+									"      \"additionalProperties\": false",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"LStore-VSIDAS -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"LStore-VSIDAS -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"pm.test(\"LStore-VSIDAS -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"LStore-VSIDAS -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"LStore-VSIDAS -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"data\");",
+									"});",
+									"",
+									"pm.test('LStore-VSIDAS -Verify_Structure_of_Response_ListAllStore_AfterStoreID', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									" // ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores?after=63e085242ad41b76c5cdce2d&size=10",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores"
+							],
+							"query": [
+								{
+									"key": "after",
+									"value": "63e085242ad41b76c5cdce2d"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST STORES WITH INVALID STORE ID AND SIZE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"",
+									"// Globally storing the response data in a vaiable",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = ",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"detail\": {",
+									"      \"type\": \"string\"",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"LStore-WSID -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"LStore-WSID -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"LStore-WSID -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"LStore-WSID -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"LStore-WSID -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"detail\");",
+									"});",
+									"",
+									"pm.test('LStore-WSID -Verify_Structure_of_Response_ListStore_InvalidStoreID', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									"",
+									" pm.test(\"LStore-WSID -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The requested Store was not found\");",
+									"});",
+									" // ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores?after=63da5c40c3a9c3d8e25fb6b454&size=20",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores"
+							],
+							"query": [
+								{
+									"key": "after",
+									"value": "63da5c40c3a9c3d8e25fb6b454"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST STORES WITH INVALID STORE ID AND INVALID SIZE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var Ajv = require(\"ajv\")",
+									"var ajv = new Ajv()",
+									"",
+									"// Globally storing the response data in a vaiable",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema=",
+									"{",
+									"  \"$id\": \"root\",",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"detail\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": {",
+									"        \"type\": \"object\",",
+									"        \"properties\": {",
+									"          \"loc\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": {",
+									"              \"type\": \"string\"",
+									"            }",
+									"          },",
+									"          \"msg\": {",
+									"            \"type\": \"string\"",
+									"          },",
+									"          \"type\": {",
+									"            \"type\": \"string\"",
+									"          }",
+									"        },",
+									"        \"required\": [],",
+									"        \"additionalProperties\": false",
+									"      }",
+									"    }",
+									"  },",
+									"  \"required\": [],",
+									"  \"additionalProperties\": false",
+									"}",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"LStore-WS -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"LStore-WS -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"LStore-WS -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"LStore-WS -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"LStore-WS -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"detail\");",
+									"});",
+									"",
+									"pm.test('LStore-WS -Verify_Structure_of_Response_ListStore_InvalidSize', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									"",
+									" pm.test(\"LStore-WS -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"value is not a valid integer\");",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores?before=63da5c40c3a9c3d8e25fb6b4&size=4.0",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores"
+							],
+							"query": [
+								{
+									"key": "before",
+									"value": "63da5c40c3a9c3d8e25fb6b4"
+								},
+								{
+									"key": "size",
+									"value": "4.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST STORES WITH VALID BEFORE AND AFTER STORE ID AND SIZE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"LStore-VBA -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"LStore-VBA -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"LStore-VBA -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"LStore-VBA -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"LStore-VBA -Verify_response_contains_attributes_property_detail\", () => {",
+									"  pm.expect(jsonData).to.ownProperty(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"LStore-VBA -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Invalid parameters provided: Send either before or after\");",
+									"});",
+									"// --------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores?before=63da5c40c3a9c3d8e25fb6b4&after=63da5c40c3a9c3d8e25fb6b4&size=0",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores"
+							],
+							"query": [
+								{
+									"key": "before",
+									"value": "63da5c40c3a9c3d8e25fb6b4"
+								},
+								{
+									"key": "after",
+									"value": "63da5c40c3a9c3d8e25fb6b4"
+								},
+								{
+									"key": "size",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COMMIT",
+			"item": [
+				{
+					"name": "CREATE PARENT COMMIT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"pm.collectionVariables.set('parent_sha1',jsonData.data.attributes.sha1);",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"DATA\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE ----------",
+									"pm.test(\"Ccommit -Verify_response_contains_data_object_property\", () => {",
+									"  pm.expect(jsonData).to.have.ownProperty(\"data\")  ",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_data_property_is_object_type\", () => {",
+									"  pm.expect(jsonData.data).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_data_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"",
+									"// ------------- VERIFYING \"TYPE\" PROPERTY IS PRESENT & NOT NULL & ITS VALUE ----------",
+									"pm.test(\"Ccommit -Verify_response_contains_type_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"type\")",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_type_property_value_is_commit\", () => {",
+									"  pm.expect(jsonData.data.type).to.eql(\"commit\")",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_type_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.type).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ID\" PROPERTY IS PRESENT & NOT NULL ----------------------",
+									"pm.test(\"Ccommit -Verify_response_contains_id_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"id\")",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_id_property_value_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.id).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ATTRIBUTE\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE-----",
+									"pm.test(\"Ccommit -Verify_response_contains_attributes_object_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"attributes\")",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_attributes_property_type_is_object\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_if_attribute_values_are_non_null\", function () {",
+									"  pm.expect(jsonData.data.attributes).not.eql(null);",
+									"  });",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------VERIFYING \"ATTRIBUTE'S\" PROPERTY STORE_SLUG IS PRESENT & NOT NULL ----",
+									"pm.test(\"Ccommit -Verify_response_contains_attributes_property_storeslug\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"store_slug\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_attributes_property_storeslug_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.store_slug).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ----------------VERIFYING \"ATTRIBUTE'S\" PROPERTY SHA1 IS PRESENT & NOT NULL ------",
+									"pm.test(\"Ccommit -Verify_response_contains_attributes_property_sha1\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"sha1\");  ",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_attributes_property_sha1_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.sha1).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY CRESTED_AT IS PRESENT & NOT NULL ------",
+									"pm.test(\"Ccommit -Verify_response_contains_attributes_property_createdat\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"created_at\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_attributes_property_createdat_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.created_at).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY PARENT IS PRESENT & IS NULL ---------",
+									"pm.test(\"Ccommit -Verify_response_contains_attributes_property_parent\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"parent\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_attributes_property_parent_is_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.parent).eql(\"\");",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"parent\": \"\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"{{store_slug}}",
+								"commits"
+							],
+							"query": [
+								{
+									"key": "rr_storename",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE COMMIT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = JSON.parse(responseBody)",
+									"// pm.collectionVariables.set('latest_sha1',jsonData.data.attributes.sha1)",
+									"// var i=0;",
+									"// while(i<3){    ",
+									"//     postman.setNextRequest(\"CREATE COMMIT\");",
+									"//     console.log(\"This commit is added with Iteration \"+i);",
+									"//     i++;",
+									"// }",
+									"",
+									"",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -----------",
+									"pm.test(\"CCcommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"DATA\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE -----",
+									"pm.test(\"CCcommit -Verify_response_contains_data_object_property\", () => {",
+									"  pm.expect(jsonData).to.have.ownProperty(\"data\")  ",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_data_property_is_object_type\", () => {",
+									"  pm.expect(jsonData.data).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_data_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"TYPE\" PROPERTY IS PRESENT & NOT NULL & ITS VALUE --------",
+									"pm.test(\"CCcommit -Verify_response_contains_type_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"type\")",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_type_property_value_is_commit\", () => {",
+									"  pm.expect(jsonData.data.type).to.eql(\"commit\")",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_type_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.type).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ID\" PROPERTY IS PRESENT & NOT NULL ----------------------",
+									"pm.test(\"CCcommit -Verify_response_contains_id_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"id\")",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_id_property_value_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.id).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ATTRIBUTE\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE-----",
+									"pm.test(\"CCcommit -Verify_response_contains_attributes_object_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"attributes\")",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_attributes_property_type_is_object\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_if_attribute_values_are_non_null\", function () {",
+									"  pm.expect(jsonData.data.attributes).not.eql(null);",
+									"  });",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------VERIFYING \"ATTRIBUTE'S\" PROPERTY STORE_SLUG IS PRESENT & NOT NULL ----",
+									"pm.test(\"CCcommit -Verify_response_contains_attributes_property_storeslug\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"store_slug\");",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_attributes_property_storeslug_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.store_slug).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ----------------VERIFYING \"ATTRIBUTE'S\" PROPERTY SHA1 IS PRESENT & NOT NULL ------",
+									"pm.test(\"CCcommit -Verify_response_contains_attributes_property_sha1\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"sha1\");  ",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_attributes_property_sha1_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.sha1).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY CRESTED_AT IS PRESENT & NOT NULL ------",
+									"pm.test(\"CCcommit -Verify_response_contains_attributes_property_createdat\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"created_at\");",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_attributes_property_createdat_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.created_at).not.eql(null);",
+									"});",
+									"// --------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY PARENT IS PRESENT & IS NULL ---------",
+									"pm.test(\"CCcommit -Verify_response_contains_attributes_property_parent\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"parent\");",
+									"});",
+									"",
+									"pm.test(\"CCcommit -Verify_response_attributes_property_parent_is_NOT_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.parent).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"parent\": \"f5d76e56efb84edbaa17c9997bf1d49a\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"{{store_slug}}",
+								"commits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE COMMIT WITH WRONG SHA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -----------",
+									"pm.test(\"Ccommit-WSHA -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"Ccommit-WSHA -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit-WSHA -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit-WSHA -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"Ccommit-WSHA -Verify_response_contains_attributes_property_detail\", () => {",
+									"  pm.expect(jsonData).to.ownProperty(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit-WSHA -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Can’t create new commit. Parent commit must be the latest commit\");",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"parent\": {{wrong_sha1}}\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"{{store_slug}}",
+								"commits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET COMMIT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -----------",
+									"pm.test(\"Gcommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"DATA\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE ----------",
+									"pm.test(\"Gcommit -Verify_response_contains_data_object_property\", () => {",
+									"  pm.expect(jsonData).to.have.ownProperty(\"data\")  ",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_data_property_is_object_type\", () => {",
+									"  pm.expect(jsonData.data).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_data_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"TYPE\" PROPERTY IS PRESENT & NOT NULL & ITS VALUE ----------",
+									"pm.test(\"Gcommit -Verify_response_contains_type_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"type\")",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_type_property_value_is_commit\", () => {",
+									"  pm.expect(jsonData.data.type).to.eql(\"commit\")",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_type_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.type).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ID\" PROPERTY IS PRESENT & NOT NULL ----------------------",
+									"pm.test(\"Gcommit -Verify_response_contains_id_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"id\")",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_id_property_value_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.id).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ATTRIBUTE\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE-----",
+									"pm.test(\"Gcommit -Verify_response_contains_attributes_object_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"attributes\")",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_attributes_property_type_is_object\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_if_attribute_values_are_non_null\", function () {",
+									"  pm.expect(jsonData.data.attributes).not.eql(null);",
+									"  });",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------VERIFYING \"ATTRIBUTE'S\" PROPERTY STORE_SLUG IS PRESENT & NOT NULL ----",
+									"pm.test(\"Gcommit -Verify_response_contains_attributes_property_storeslug\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"store_slug\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_attributes_property_storeslug_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.store_slug).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ----------------VERIFYING \"ATTRIBUTE'S\" PROPERTY SHA1 IS PRESENT & NOT NULL ------",
+									"pm.test(\"Gcommit -Verify_response_contains_attributes_property_sha1\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"sha1\");  ",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_attributes_property_sha1_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.sha1).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY CRESTED_AT IS PRESENT & NOT NULL ------",
+									"pm.test(\"Gcommit -Verify_response_contains_attributes_property_createdat\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"created_at\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_attributes_property_createdat_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.created_at).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY PARENT IS PRESENT & IS NULL ---------",
+									"pm.test(\"Gcommit -Verify_response_contains_attributes_property_parent\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"parent\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit -Verify_response_attributes_property_parent_is_NOT_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.parent).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-tp9k45t3njh/commits/2a5f8c130a1b4317bb7309ee856a3e67",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-tp9k45t3njh",
+								"commits",
+								"2a5f8c130a1b4317bb7309ee856a3e67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET COMMIT WITH WRONG STORENAME",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -----------",
+									"pm.test(\"Gcommit-WSTO -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSTO -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSTO -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSTO -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"Gcommit-WSTO -Verify_response_contains_attributes_property_detail\", () => {",
+									"  pm.expect(jsonData).to.ownProperty(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSTO -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The requested Store was not found\");",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-tp9k45t3njh1/commits/2a5f8c130a1b4317bb7309ee856a3e67",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-tp9k45t3njh1",
+								"commits",
+								"2a5f8c130a1b4317bb7309ee856a3e67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET COMMIT WITH WRONG SHA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -----------",
+									"pm.test(\"Gcommit-WSHA -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSHA -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSHA -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSHA -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"Gcommit-WSHA -Verify_response_contains_attributes_property_detail\", () => {",
+									"  pm.expect(jsonData).to.ownProperty(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"Gcommit-WSHA -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The requested Commit was not found\");",
+									"});",
+									"// --------------------------------------------------------------------------------",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-tp9k45t3njh/commits/{{wrong_sha1}}",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-tp9k45t3njh",
+								"commits",
+								"{{wrong_sha1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST COMMIT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = {",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"data\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": [",
+									"        {",
+									"          \"type\": \"object\",",
+									"          \"properties\": {",
+									"            \"type\": {",
+									"              \"type\": \"string\"",
+									"            },",
+									"            \"id\": {",
+									"              \"type\": \"string\"",
+									"            },",
+									"            \"attributes\": {",
+									"              \"type\": \"object\",",
+									"              \"properties\": {",
+									"                \"store_slug\": {",
+									"                  \"type\": \"string\"",
+									"                },",
+									"                \"sha1\": {",
+									"                  \"type\": \"string\"",
+									"                },",
+									"                \"created_at\": {",
+									"                  \"type\": \"string\"",
+									"                },",
+									"                \"parent\": {",
+									"                  \"type\": \"string\"",
+									"                }",
+									"              },",
+									"              \"required\": [",
+									"                \"store_slug\",",
+									"                \"sha1\",",
+									"                \"created_at\",",
+									"                \"parent\"",
+									"              ]",
+									"            }",
+									"          },",
+									"          \"required\": [",
+									"            \"type\",",
+									"            \"id\",",
+									"            \"attributes\"",
+									"          ]",
+									"        }",
+									"      ]",
+									"    },",
+									"    \"meta\": {",
+									"      \"type\": \"object\",",
+									"      \"properties\": {",
+									"        \"size\": {",
+									"          \"type\": \"integer\"",
+									"        },",
+									"        \"total\": {",
+									"          \"type\": \"integer\"",
+									"        },",
+									"        \"next\": {",
+									"          \"type\": \"string\"",
+									"        },",
+									"        \"prev\": {",
+									"          \"type\": \"string\"",
+									"        }",
+									"      },",
+									"      \"required\": [",
+									"        \"size\",",
+									"        \"total\",",
+									"        \"next\",",
+									"        \"prev\"",
+									"      ]",
+									"    }",
+									"  },",
+									"  \"required\": [",
+									"    \"data\",",
+									"    \"meta\"",
+									"  ]",
+									"}",
+									"    ",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -----------",
+									"pm.test(\"Lcommit -Verify_commit_listed_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Lcommit -Verify_commit_listed_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"pm.test(\"Lcommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Lcommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE STRUCTURE/SCHEMA OF RESPONSE RETURNED ------------",
+									"pm.test('Lcommit -Verify_Structure_of_Response_ListAllCommits', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									" // ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-p80rmyvdir/commits",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-p80rmyvdir",
+								"commits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST COMMIT WITH WRONG STORE SLUG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const Ajv = require(\"ajv\")",
+									"const ajv = new Ajv()",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"var schema = {",
+									"  \"$schema\": \"http://json-schema.org/draft-07/schema#\",",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"data\": {",
+									"      \"type\": \"array\",",
+									"      \"items\": [",
+									"        {",
+									"          \"type\": \"object\",",
+									"          \"properties\": {",
+									"            \"type\": {",
+									"              \"type\": \"string\"",
+									"            },",
+									"            \"id\": {",
+									"              \"type\": \"string\"",
+									"            },",
+									"            \"attributes\": {",
+									"              \"type\": \"object\",",
+									"              \"properties\": {",
+									"                \"store_slug\": {",
+									"                  \"type\": \"string\"",
+									"                },",
+									"                \"sha1\": {",
+									"                  \"type\": \"string\"",
+									"                },",
+									"                \"created_at\": {",
+									"                  \"type\": \"string\"",
+									"                },",
+									"                \"parent\": {",
+									"                  \"type\": \"string\"",
+									"                }",
+									"              },",
+									"              \"required\": [",
+									"                \"store_slug\",",
+									"                \"sha1\",",
+									"                \"created_at\",",
+									"                \"parent\"",
+									"              ]",
+									"            }",
+									"          },",
+									"          \"required\": [",
+									"            \"type\",",
+									"            \"id\",",
+									"            \"attributes\"",
+									"          ]",
+									"        }",
+									"      ]",
+									"    },",
+									"    \"meta\": {",
+									"      \"type\": \"object\",",
+									"      \"properties\": {",
+									"        \"size\": {",
+									"          \"type\": \"integer\"",
+									"        },",
+									"        \"total\": {",
+									"          \"type\": \"integer\"",
+									"        },",
+									"        \"next\": {",
+									"          \"type\": \"string\"",
+									"        },",
+									"        \"prev\": {",
+									"          \"type\": \"string\"",
+									"        }",
+									"      },",
+									"      \"required\": [",
+									"        \"size\",",
+									"        \"total\",",
+									"        \"next\",",
+									"        \"prev\"",
+									"      ]",
+									"    }",
+									"  },",
+									"  \"required\": [",
+									"    \"data\",",
+									"    \"meta\"",
+									"  ]",
+									"}",
+									"    ",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -----------",
+									"pm.test(\"Lcommit -Verify_commit_listed_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Lcommit -Verify_commit_listed_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"OK\");",
+									"});",
+									"",
+									"pm.test(\"Lcommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Lcommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE STRUCTURE/SCHEMA OF RESPONSE RETURNED ------------",
+									"pm.test('Lcommit -Verify_Structure_of_Response_ListAllCommits', function() {",
+									"    const validate = ajv.compile(schema)",
+									"    const valid = validate(jsonData)",
+									"    pm.expect(valid).to.be.true;",
+									" });",
+									" // ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-aq1izczic1g/commits",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-aq1izczic1g",
+								"commits"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FILE CHUNK",
+			"item": [
+				{
+					"name": "CREATE FILE CHUNK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"CFileChunk -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"DATA\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE ----------",
+									"pm.test(\"CFileChunk -Verify_response_contains_data_object_property\", () => {",
+									"  pm.expect(jsonData).to.have.ownProperty(\"data\")  ",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_data_property_is_object_type\", () => {",
+									"  pm.expect(jsonData.data).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_data_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"TYPE\" PROPERTY IS PRESENT & NOT NULL & ITS VALUE ----------",
+									"pm.test(\"CFileChunk -Verify_response_contains_type_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"type\")",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_type_property_value_is_commit\", () => {",
+									"  pm.expect(jsonData.data.type).to.eql(\"file-chunk\")",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_type_property_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.type).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"",
+									"// ------------- VERIFYING \"ID\" PROPERTY IS PRESENT & NOT NULL ----------------------",
+									"pm.test(\"CFileChunk -Verify_response_contains_id_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"id\")",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_id_property_value_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.id).not.eql(null)",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING \"ATTRIBUTE\" PROPERTY IS PRESENT & NOT NULL & ITS TYPE-----",
+									"pm.test(\"CFileChunk -Verify_response_contains_attributes_object_property\", () => {",
+									"  pm.expect(jsonData.data).to.haveOwnProperty(\"attributes\")",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_attributes_property_type_is_object\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.be.an(\"object\")",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_if_attribute_values_are_non_null\", function () {",
+									"  pm.expect(jsonData.data.attributes).not.eql(null);",
+									"  });",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ------------VERIFYING \"ATTRIBUTE'S\" PROPERTY STORE_SLUG IS PRESENT & NOT NULL ----",
+									"pm.test(\"CFileChunk -Verify_response_contains_attributes_property_storeslug\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"store_slug\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_attributes_property_storeslug_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.store_slug).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// ----------------VERIFYING \"ATTRIBUTE'S\" PROPERTY SHA1 IS PRESENT & NOT NULL ------",
+									"pm.test(\"CFileChunk -Verify_response_contains_attributes_property_sha1\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"commit_sha1\");  ",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_attributes_property_sha1_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.sha1).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY CREATEDAT IS PRESENT & NOT NULL ------",
+									"pm.test(\"CFileChunk -Verify_response_contains_attributes_property_createdat\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"created_at\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_attributes_property_createdat_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.created_at).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY CHUNK_NUMBER IS PRESENT & NOT NULL ------",
+									"pm.test(\"CFileChunk -Verify_response_contains_attributes_property_chunk_number\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"chunk_number\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_attributes_property_chunk_number_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.chunk_number).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									"// -----------VERIFYING \"ATTRIBUTE'S\" PROPERTY TOTAL_FILES IS PRESENT & NOT NULL ------",
+									"pm.test(\"CFileChunk -Verify_response_contains_attributes_property_total_files\", () => {",
+									"  pm.expect(jsonData.data.attributes).to.have.property(\"total_files\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk -Verify_response_attributes_property_total_files_is_not_null\", () => {",
+									"  pm.expect(jsonData.data.attributes.total_files).not.eql(null);",
+									"});",
+									"// ----------------------------------------------------------------------------------",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\":{\n    \"attributes\": {\n      \"files\": {\n          \"test1txt\": {\"object-path\": \"aws/test1.txt\"},\n          \"test2txt\": {\"object-path\": \"aws/test2.txt\"},\n          \"test3txt\": {\"object-path\": \"aws/test3.txt\"},\n          \"test5txt\": {\"object-path\": \"aws/test4.txt\"},\n          \"test6txt\": {\"object-path\": \"aws/test5.txt\"},\n          \"test7txt\": {\"object-path\": \"aws/test6.txt\"},\n          \"test8txt\": {\"object-path\": \"aws/test7.txt\"},\n          \"test9txt\": {\"object-path\": \"aws/test8.txt\"},\n          \"test10txt\": {\"object-path\": \"aws/test9.txt\"},\n          \"test11txt\": {\"object-path\": \"aws/test10.txt\"},\n          \"test12txt\": {\"object-path\": \"aws/test11.txt\"},\n          \"test13txt\": {\"object-path\": \"aws/test12.txt\"},\n          \"test14txt\": {\"object-path\": \"aws/test13.txt\"},\n          \"test15txt\": {\"object-path\": \"aws/test14.txt\"},\n          \"test16txt\": {\"object-path\": \"aws/test15.txt\"},\n          \"test17txt\": {\"object-path\": \"aws/test16.txt\"}\n        \n      }\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-p80rmyvdir/commits/37a49de8a2674fe7b8599bdd4ea6b030/file-chunks",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-p80rmyvdir",
+								"commits",
+								"37a49de8a2674fe7b8599bdd4ea6b030",
+								"file-chunks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE FILE CHUNK WITH INVALID CHUNK ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"CFileChunk-WICID -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WICID -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WICID -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WICID -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"CFileChunk-WICID -Verify_response_contains_attributes_property_detail\", () => {",
+									"  pm.expect(jsonData).to.ownProperty(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WICID -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The requested Commit was not found\");",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\":{\n    \"attributes\": {\n      \"files\": {\n          \"test1txt\": {\"object-path\": \"aws/test1.txt\"},\n          \"test2txt\": {\"object-path\": \"aws/test2.txt\"},\n          \"test3txt\": {\"object-path\": \"aws/test3.txt\"},\n          \"test5txt\": {\"object-path\": \"aws/test4.txt\"},\n          \"test6txt\": {\"object-path\": \"aws/test5.txt\"},\n          \"test7txt\": {\"object-path\": \"aws/test6.txt\"},\n          \"test8txt\": {\"object-path\": \"aws/test7.txt\"},\n          \"test9txt\": {\"object-path\": \"aws/test8.txt\"},\n          \"test10txt\": {\"object-path\": \"aws/test9.txt\"},\n          \"test11txt\": {\"object-path\": \"aws/test10.txt\"},\n          \"test12txt\": {\"object-path\": \"aws/test11.txt\"},\n          \"test13txt\": {\"object-path\": \"aws/test12.txt\"},\n          \"test14txt\": {\"object-path\": \"aws/test13.txt\"},\n          \"test15txt\": {\"object-path\": \"aws/test14.txt\"},\n          \"test16txt\": {\"object-path\": \"aws/test15.txt\"},\n          \"test17txt\": {\"object-path\": \"aws/test16.txt\"}\n        \n      }\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-p80rmyvdir/commits/37a49de8a2674fe7b8599bdd4ea6b030123/file-chunks",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-p80rmyvdir",
+								"commits",
+								"37a49de8a2674fe7b8599bdd4ea6b030123",
+								"file-chunks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE FILE CHUNK WITH INVALID STORE SLUG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"CFileChunk-WISS -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WISS -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WISS -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WISS -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"CFileChunk-WISS -Verify_response_contains_attributes_property_detail\", () => {",
+									"  pm.expect(jsonData).to.ownProperty(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"CFileChunk-WISS -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The requested Store was not found\");",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\":{\n    \"attributes\": {\n      \"files\": {\n          \"test1txt\": {\"object-path\": \"aws/test1.txt\"},\n          \"test2txt\": {\"object-path\": \"aws/test2.txt\"},\n          \"test3txt\": {\"object-path\": \"aws/test3.txt\"},\n          \"test5txt\": {\"object-path\": \"aws/test4.txt\"},\n          \"test6txt\": {\"object-path\": \"aws/test5.txt\"},\n          \"test7txt\": {\"object-path\": \"aws/test6.txt\"},\n          \"test8txt\": {\"object-path\": \"aws/test7.txt\"},\n          \"test9txt\": {\"object-path\": \"aws/test8.txt\"},\n          \"test10txt\": {\"object-path\": \"aws/test9.txt\"},\n          \"test11txt\": {\"object-path\": \"aws/test10.txt\"},\n          \"test12txt\": {\"object-path\": \"aws/test11.txt\"},\n          \"test13txt\": {\"object-path\": \"aws/test12.txt\"},\n          \"test14txt\": {\"object-path\": \"aws/test13.txt\"},\n          \"test15txt\": {\"object-path\": \"aws/test14.txt\"},\n          \"test16txt\": {\"object-path\": \"aws/test15.txt\"},\n          \"test17txt\": {\"object-path\": \"aws/test16.txt\"}\n        \n      }\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-p80rmyvdir1/commits/37a49de8a2674fe7b8599bdd4ea6b030/file-chunks",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-p80rmyvdir1",
+								"commits",
+								"37a49de8a2674fe7b8599bdd4ea6b030",
+								"file-chunks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET FILE CHUNK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/store0-p80rmyvdir/commits/37a49de8a2674fe7b8599bdd4ea6b030/file-chunks/11",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"store0-p80rmyvdir",
+								"commits",
+								"37a49de8a2674fe7b8599bdd4ea6b030",
+								"file-chunks",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET FC WITH INVALID CHUNK NUMBER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/<store-slug>/commits/<commit-sha1>/file-chunks/<chunk-number>",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"<store-slug>",
+								"commits",
+								"<commit-sha1>",
+								"file-chunks",
+								"<chunk-number>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET FC WITH INVALID COMMITSHA1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/<store-slug>/commits/<commit-sha1>/file-chunks/<chunk-number>",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"<store-slug>",
+								"commits",
+								"<commit-sha1>",
+								"file-chunks",
+								"<chunk-number>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET FC WITH INVALID STORESLUG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/<store-slug>/commits/<commit-sha1>/file-chunks/<chunk-number>",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"<store-slug>",
+								"commits",
+								"<commit-sha1>",
+								"file-chunks",
+								"<chunk-number>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST FILE CHUNK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/<store-slug>/commits/<commit-sha1>/file-chunks",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"<store-slug>",
+								"commits",
+								"<commit-sha1>",
+								"file-chunks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST FC WITH INVALID COMMITSHA1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/<store-slug>/commits/<commit-sha1>/file-chunks",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"<store-slug>",
+								"commits",
+								"<commit-sha1>",
+								"file-chunks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LIST FC WITH INVALID STORESLUG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_commit_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Ccommit -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverurl}}/api/v1/stores/<store-slug>/commits/<commit-sha1>/file-chunks",
+							"host": [
+								"{{serverurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stores",
+								"<store-slug>",
+								"commits",
+								"<commit-sha1>",
+								"file-chunks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "store_name",
+			"value": ""
+		},
+		{
+			"key": "serverurl",
+			"value": "http://storage.aks-cicd-cnvrg-version-control-382.cicd.cnvrg.me"
+		},
+		{
+			"key": "store_slug",
+			"value": ""
+		},
+		{
+			"key": "wrong_sha1",
+			"value": ""
+		},
+		{
+			"key": "wrong_store_name",
+			"value": ""
+		},
+		{
+			"value": ""
+		},
+		{
+			"key": "rr_storename",
+			"value": ""
+		},
+		{
+			"key": "rr_storename",
+			"value": ""
+		},
+		{
+			"key": "latest_sha1",
+			"value": ""
+		},
+		{
+			"key": "Wrong_store_slug",
+			"value": ""
+		},
+		{
+			"key": "parent_sha1",
+			"value": ""
+		}
+	]
+}
