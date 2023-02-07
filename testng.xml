@@ -4,7 +4,7 @@
   <test thread-count="5" name="Test2">   
     <classes>
   #############################
-  
+######sample anamika
       <class name="mavenforjenkins.UITest"/>         
     </classes>
   </test> 
