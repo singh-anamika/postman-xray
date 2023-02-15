@@ -1,3 +1,5 @@
+import sys
+sys.path.append('./requests-master')
 import requests
 import os
 import json
@@ -6,6 +8,3 @@ response = requests.post('https://xray.cloud.getxray.app/api/v2/authenticate', d
 parsed_auth = response.json()
 token = 'Bearer {}'.format(parsed_auth)
 print(token)
-
-
-
