@@ -2,8 +2,7 @@
 	"info": {
 		"_postman_id": "926bcc97-e8db-4354-ac57-e293cd106587",
 		"name": "CVC_Apis",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19552243"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -1796,6 +1795,40 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var Ajv = require(\"ajv\")",
+									"var ajv = new Ajv()",
+									"",
+									"// Globally storing the response data in a vaiable",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"ListStoreWithInvalidPageSize -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"ListStoreWithInvalidPageSize -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"ListStoreWithInvalidPageSize -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"ListStoreWithInvalidPageSize -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"ListStoreWithInvalidPageSize -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"ListStoreWithInvalidPageSize -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Max page size is 150\");",
+									"});",
+									"// ------------------------------------------------------------------------------",
 									""
 								],
 								"type": "text/javascript"
@@ -1806,7 +1839,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{serverurl}}/api/v1/stores?before={{secondlast_store_id}}&size=10000000000000000000000000",
+							"raw": "{{serverurl}}/api/v1/stores?before={{secondlast_store_id}}&size=151",
 							"host": [
 								"{{serverurl}}"
 							],
@@ -1822,7 +1855,7 @@
 								},
 								{
 									"key": "size",
-									"value": "10000000000000000000000000"
+									"value": "151"
 								}
 							]
 						}
@@ -3281,20 +3314,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://app.eks-cicd-16532.cicd.cnvrg.me/api/v1/stores/datacqbdv/commits?size=-1",
-							"protocol": "http",
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits?size=-1",
 							"host": [
-								"app",
-								"eks-cicd-16532",
-								"cicd",
-								"cnvrg",
-								"me"
+								"{{serverurl}}"
 							],
 							"path": [
 								"api",
 								"v1",
 								"stores",
-								"datacqbdv",
+								"{{store_slug}}",
 								"commits"
 							],
 							"query": [
@@ -3996,6 +4024,40 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var Ajv = require(\"ajv\")",
+									"var ajv = new Ajv()",
+									"",
+									"// Globally storing the response data in a vaiable",
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED ---------------------",
+									"pm.test(\"ListCommitWithInvalidPageSize -Verify_store_created_successfully_viaStatusCode\", () => {",
+									"  pm.expect(pm.response.code).to.eql(422);",
+									"});",
+									"",
+									"pm.test(\"ListCommitWithInvalidPageSize -Verify_store_created_successfully_viaStatusMessage\", () => {",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
+									"});",
+									"",
+									"pm.test(\"ListCommitWithInvalidPageSize -Verify_response_time_tobe_less_than_500ms\", () => {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"ListCommitWithInvalidPageSize -Verify_response_returned_is_json_format\", () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"});",
+									"// ------------------------------------------------------------------------------",
+									"",
+									"",
+									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
+									"pm.test(\"ListCommitWithInvalidPageSize -Verifying_Body_matches_KeyString\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"detail\");",
+									"});",
+									"",
+									"pm.test(\"ListCommitWithInvalidPageSize -Verify_response_contains_the_message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Max page size is 150\");",
+									"});",
+									"// ------------------------------------------------------------------------------",
 									""
 								],
 								"type": "text/javascript"
@@ -4006,7 +4068,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits?before={{last_commit_id}}&size=10000000000000000000",
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits?before={{last_commit_id}}&size=151",
 							"host": [
 								"{{serverurl}}"
 							],
@@ -4024,7 +4086,7 @@
 								},
 								{
 									"key": "size",
-									"value": "10000000000000000000"
+									"value": "151"
 								}
 							]
 						}
@@ -5717,11 +5779,11 @@
 									"",
 									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
 									"pm.test(\"ListFCValidAfterAndInvalidChunk Verify_FileChunk_Listed_Successfully_ViaStatusCode\", () => {",
-									"  pm.expect(pm.response.code).to.eql(404);",
+									"  pm.expect(pm.response.code).to.eql(422);",
 									"});",
 									"",
 									"pm.test(\"ListFCValidAfterAndInvalidChunk -Verify_FileChunk_Listed_Successfully_ViaStatusMessage\", () => {",
-									"  pm.response.to.have.status(\"Not Found\");",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
 									"});",
 									"",
 									"pm.test(\"ListFCValidAfterAndInvalidChunk -Verify_FileChunk_Listing_ResponseTime_TobeLessThan500ms\", () => {",
@@ -5735,11 +5797,11 @@
 									"",
 									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
 									"pm.test(\"ListFCValidAfterAndInvalidChunk -Verify_Response_Contains_Detail_Object\", () => {",
-									"  pm.expect(jsonData).to.have.ownProperty(\"error\");",
+									"  pm.expect(jsonData).to.have.ownProperty(\"detail\");",
 									"});",
 									"",
 									"pm.test(\"ListFCValidAfterAndInvalidChunk -Verify_Response_Text_Content\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"The requested Filechunk was not found\");",
+									"    pm.expect(pm.response.text()).to.include(\"Max page size is 150\");",
 									"});",
 									"// ------------------------------------------------------------------------------"
 								],
@@ -5751,7 +5813,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits/{{latest_sha1}}/file-chunks?before={{first_chunk_id}}&size=10000000000000000000",
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits/{{latest_sha1}}/file-chunks?before={{first_chunk_id}}&size=151",
 							"host": [
 								"{{serverurl}}"
 							],
@@ -5771,7 +5833,7 @@
 								},
 								{
 									"key": "size",
-									"value": "10000000000000000000"
+									"value": "151"
 								}
 							]
 						}
@@ -5972,11 +6034,11 @@
 									"",
 									"// ------------- SOME STANDARD CHECKS ON RESPONSE RECEIVED -------------------",
 									"pm.test(\"ListFCValidBeforeAndInvalidChunk Verify_FileChunk_Listed_Successfully_ViaStatusCode\", () => {",
-									"  pm.expect(pm.response.code).to.eql(404);",
+									"  pm.expect(pm.response.code).to.eql(422);",
 									"});",
 									"",
 									"pm.test(\"ListFCValidBeforeAndInvalidChunk -Verify_FileChunk_Listed_Successfully_ViaStatusMessage\", () => {",
-									"  pm.response.to.have.status(\"Not Found\");",
+									"  pm.response.to.have.status(\"Unprocessable Entity\");",
 									"});",
 									"",
 									"pm.test(\"ListFCValidBeforeAndInvalidChunk -Verify_FileChunk_Listing_ResponseTime_TobeLessThan500ms\", () => {",
@@ -5990,11 +6052,11 @@
 									"",
 									"// ------------- VERIFYING THE RESPONSE DETAIL PROPERTY AND TEXT -----------------",
 									"pm.test(\"ListFCValidBeforeAndInvalidChunk -Verify_Response_Contains_Detail_Object\", () => {",
-									"  pm.expect(jsonData).to.have.ownProperty(\"error\");",
+									"  pm.expect(jsonData).to.have.ownProperty(\"detail\");",
 									"});",
 									"",
 									"pm.test(\"ListFCValidBeforeAndInvalidChunk -Verify_Response_Text_Content\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"The requested Filechunk was not found\");",
+									"    pm.expect(pm.response.text()).to.include(\"Max page size is 150\");",
 									"});",
 									"// ------------------------------------------------------------------------------"
 								],
@@ -6006,7 +6068,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits/{{latest_sha1}}/file-chunks?before={{last_chunk_id}}&size=10000000000000000000",
+							"raw": "{{serverurl}}/api/v1/stores/{{store_slug}}/commits/{{latest_sha1}}/file-chunks?before={{last_chunk_id}}&size=151",
 							"host": [
 								"{{serverurl}}"
 							],
@@ -6026,7 +6088,7 @@
 								},
 								{
 									"key": "size",
-									"value": "10000000000000000000"
+									"value": "151"
 								}
 							]
 						}
