@@ -47,8 +47,9 @@ jobs:
             pwd
             ls
             echo "::set-output name=job_status::success"
+            
       - name: Upload Newman JUnit report
-        if: ${{ steps.newman.outcome == 'success' }}
+        if: ${{ success() }}
         uses: actions/upload-artifact@v2
         with:
           name: newman-report
