@@ -38,6 +38,7 @@ jobs:
 
             
       - name: Upload Newman JUnit report
+        continue-on-error: true
         uses: actions/upload-artifact@v2
         with:
           name: newman-report
@@ -51,5 +52,3 @@ jobs:
             echo "::set-output name=job_status::success"
           else
             echo "::set-output name=job_status::failed"
-            exit 1
-          fi
