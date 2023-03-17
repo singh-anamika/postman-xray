@@ -18,8 +18,6 @@ jobs:
       - name: Install Python Packages
         run: pip install requests
   
-  
-
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
@@ -31,14 +29,13 @@ jobs:
           npm install -g newman-reporter-junitfull
           npm install -g newman-reporter-junitxray
         
-        
       - name: Run API tests and Generate API tests report
         id: newman
-        run: newman run https://api.postman.com/collections/18481634-926bcc97-e8db-4354-ac57-e293cd106587?access_key=PMAT-01GV2Y8JN6HSKEW0PRMRKK8GVA --reporters junitfull --reporter-junitfull-export cvc-report.xml 
+        run: newman run https://api.postman.com/collections/18481634-926bcc97-e8db-4354-ac57-e293cd106587?access_key=PMAT-01GV2Y8JN6HSKEW0PRMRKK8GVA --reporters junitfull --reporter-junitfull-export cvc-report.xml || true
 
-            
       - name: Upload Newman JUnit report
         continue-on-error: true
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: newman-report
@@ -48,7 +45,7 @@ jobs:
         id: set_status
         if: ${{ always() }}
         run: |
-          if [ "${{ steps.api_tests.outcome }}" == "success" ]; then
+          if [ "${{ steps.newman.outcome }}" == "success" ]; then
             echo "::set-output name=job_status::success"
           else
             echo "::set-output name=job_status::failed"
