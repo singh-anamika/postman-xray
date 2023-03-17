@@ -9,6 +9,8 @@ jobs:
   
   job1:
     runs-on: ubuntu-latest
+    outputs:
+      job_status: ${{ steps.set_status.outputs.job_status }}
 
     steps:
       - uses: actions/checkout@v2
@@ -31,33 +33,34 @@ jobs:
         
         
       - name: Run API tests
+        id: api_tests
         run: newman run CVC_Apis.postman_collection.json || true
+        continue-on-error: true
       - name: Generate API tests report
         id: newman
         run: newman run https://api.postman.com/collections/18481634-926bcc97-e8db-4354-ac57-e293cd106587?access_key=PMAT-01GV2Y8JN6HSKEW0PRMRKK8GVA --reporters junitfull --reporter-junitfull-export cvc-report.xml 
 
  
       - name: Check directory
+        if: ${{ always() }}
         run: |
             pwd
             ls
-
+            echo "::set-output name=job_status::success"
       - name: Upload Newman JUnit report
+        if: ${{ steps.newman.outcome == 'success' }}
         uses: actions/upload-artifact@v2
         with:
           name: newman-report
           path: cvc-report.xml
-        
-        
-        
-
-            
           
-          
-     
-
-      
- 
-        
-        
-    
+      - name: Set job status
+        id: set_status
+        if: ${{ always() }}
+        run: |
+          if [ "${{ steps.api_tests.outcome }}" == "success" ]; then
+            echo "::set-output name=job_status::success"
+          else
+            echo "::set-output name=job_status::failed"
+            exit 1
+          fi
