@@ -29,7 +29,7 @@ jobs:
           npm install -g newman-reporter-junitfull
           npm install -g newman-reporter-junitxray
         
-      - name: Run API tests and Generate API tests report
+      - name: Run API tests
         id: newman
         run: newman run https://api.postman.com/collections/18481634-926bcc97-e8db-4354-ac57-e293cd106587?access_key=PMAT-01GV2Y8JN6HSKEW0PRMRKK8GVA --reporters junitfull --reporter-junitfull-export cvc-report.xml
 
