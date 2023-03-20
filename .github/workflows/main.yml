@@ -2,7 +2,8 @@ name: Multi-Job Action
 
 on:
   repository_dispatch:
-  types: [run_api_automation]
+   types: run_api_automation
+
   
       
 
