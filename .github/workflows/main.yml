@@ -31,7 +31,7 @@ jobs:
         
       - name: Run API tests via Newman
         id: newman
-        run: newman run CVC_Apis.postman_collection.json --reporters junitfull --reporter-junitfull-export cvc-report.xml || true
+        run: newman run CVC_Apis.postman_collection.json --reporters cli,junitfull --reporter-junitfull-export cvc-report.xml || true
 
       - name: Upload Newman JUnit report
         continue-on-error: true
