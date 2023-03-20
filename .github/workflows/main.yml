@@ -2,9 +2,13 @@ name: Multi-Job Action
 
 on:
   repository_dispatch:
-    types: run_api_automation
+   types: run_api_automation
+
+  
+      
 
 jobs:
+  
   api_automation:
     runs-on: ubuntu-latest
     outputs:
@@ -15,21 +19,21 @@ jobs:
 
       - name: Install Python Packages
         run: pip install requests
-
-      - name: Export Postman Collection
-        run: |
-          curl --location --request GET 'https://api.getpostman.com/collections/926bcc97-e8db-4354-ac57-e293cd106587?format=2.1.0' --header 'X-Api-Key: PMAK-641853f432fe401f0c931322-cf6e2ebe1abf1a72f2fe513d70fe7abfb4' --output 'collection.json'
-          echo "::set-output name=collection_path::$(pwd)/collection.json"
+  
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
 
       - name: Install Newman
         run: |
           npm install -g newman
           npm install -g newman-reporter-junitfull
           npm install -g newman-reporter-junitxray
-
+        
       - name: Run API tests via Newman
         id: newman
-        run: newman run ${{ steps.Export_Postman_Collection.outputs.collection_path }} --reporters cli,junitfull --reporter-junitfull-export cvc-report.xml
+        run: newman run https://api.postman.com/collections/18481634-926bcc97-e8db-4354-ac57-e293cd106587?access_key=PMAT-01GV2Y8JN6HSKEW0PRMRKK8GVA --reporters cli,junitfull --reporter-junitfull-export cvc-report.xml 
 
       - name: Upload Newman JUnit report
         continue-on-error: true
@@ -38,7 +42,7 @@ jobs:
         with:
           name: newman-report
           path: cvc-report.xml
-
+          
       - name: Set job status
         id: set_status
         if: ${{ always() }}
