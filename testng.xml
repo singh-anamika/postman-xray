@@ -4,7 +4,7 @@
   <test thread-count="5" name="Test2">   
     <classes>
       
-######commit chnages
+##########commit chnages
       
 
       <class name="mavenforjenkins.UITest"/>         
