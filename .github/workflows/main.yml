@@ -7,7 +7,7 @@ on:
 
 jobs:
   
-  job1:
+  api_automation:
     runs-on: ubuntu-latest
     outputs:
       job_status: ${{ steps.set_status.outputs.job_status }}
