@@ -31,7 +31,7 @@ jobs:
         
       - name: Run API tests via Newman
         id: newman
-        run: newman run https://api.postman.com/collections/18481634-926bcc97-e8db-4354-ac57-e293cd106587?access_key=PMAT-01GV2Y8JN6HSKEW0PRMRKK8GVA --reporters junitfull --reporter-junitfull-export cvc-report.xml || true
+        run: newman run CVC_Apis.postman_collection.json --reporters junitfull --reporter-junitfull-export cvc-report.xml || true
 
       - name: Upload Newman JUnit report
         continue-on-error: true
