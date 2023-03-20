@@ -1,9 +1,7 @@
 name: Multi-Job Action
 
 on:
-  push:
-    branches:
-      - main
+
   repository_dispatch:
    types: run_api_automation
 
