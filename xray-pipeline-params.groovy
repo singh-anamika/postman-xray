@@ -44,7 +44,7 @@ pipeline {
             steps{
                 script{
                         // Define the command to run the script and pass any required parameters
-                        def command = "python3 parallel-execution-newman.py '${params.COLLECTION_URL}'"
+                        def command = "python3 parallel_newman.py '${params.COLLECTION_URL}'"
 
                         // Run the script using sh step and capture the output
                         def output = sh(script: command, returnStdout: true).trim()
