@@ -22,7 +22,7 @@ pipeline {
         
         stage('Checkout'){
             steps{
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '04bab23d-6247-42cd-a135-155a3e34f5b9', url: 'https://github.com/anshuman0053/postman-newman.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'cd4433bd-73ee-4f3c-bb3c-c3f8e10144a8', url: 'https://github.com/singh-anamika/postman-xray.git']])
             }
         }
         
